@@ -122,6 +122,33 @@ const useHasHydrated = () => {
   return hasHydrated;
 };
 
+const useViewportHeight = () => {
+  useEffect(() => {
+    const root = document.documentElement;
+
+    const syncViewportHeight = () => {
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      root.style.setProperty("--app-height", `${viewportHeight}px`);
+      root.style.setProperty("--full-height", `${viewportHeight}px`);
+    };
+
+    syncViewportHeight();
+
+    const visualViewport = window.visualViewport;
+    visualViewport?.addEventListener("resize", syncViewportHeight);
+    visualViewport?.addEventListener("scroll", syncViewportHeight);
+    window.addEventListener("resize", syncViewportHeight);
+    window.addEventListener("orientationchange", syncViewportHeight);
+
+    return () => {
+      visualViewport?.removeEventListener("resize", syncViewportHeight);
+      visualViewport?.removeEventListener("scroll", syncViewportHeight);
+      window.removeEventListener("resize", syncViewportHeight);
+      window.removeEventListener("orientationchange", syncViewportHeight);
+    };
+  }, []);
+};
+
 const loadAsyncFonts = () => {
   const linkEl = document.createElement("link");
   linkEl.rel = "stylesheet";
@@ -170,11 +197,14 @@ const useWebLLM = () => {
   const [webllm, setWebLLM] = useState<WebLLMApi | undefined>(undefined);
   const [isWebllmActive, setWebllmAlive] = useState(false);
 
-  // Simplified: always use WebWorker engine in dev to avoid SW delays/hangs.
   useEffect(() => {
-    setWebLLM(new WebLLMApi("webWorker", config.logLevel));
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    setWebLLM((current) => current ?? new WebLLMApi("webWorker", config.logLevel));
     setWebllmAlive(true);
-  }, [config.logLevel]);
+  }, []);
 
   return { webllm, isWebllmActive };
 };
@@ -266,6 +296,7 @@ export function Home() {
   const { webllm, isWebllmActive } = useWebLLM();
   const mlcllm = useMlcLLM();
 
+  useViewportHeight();
   useSwitchTheme();
   useHtmlLang();
   useLoadUrlParam();

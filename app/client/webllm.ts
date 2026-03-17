@@ -21,6 +21,32 @@ import { DEFAULT_MODELS } from "../constant";
 
 const KEEP_ALIVE_INTERVAL = 5_000;
 
+function enhanceWebGPUError(errorMessage: string, model?: string) {
+  const lowered = errorMessage.toLowerCase();
+  const isDeviceRemoved =
+    lowered.includes("dxgi_error_device_removed") ||
+    lowered.includes("device_removed") ||
+    lowered.includes("gpupipelineerror");
+
+  if (!isDeviceRemoved) {
+    return errorMessage;
+  }
+
+  const lighterModelHint = model?.includes("q4f32")
+    ? model.replace("q4f32_1", "q4f16_1")
+    : model?.includes("q0f32")
+      ? model.replace("q0f32", "q0f16")
+      : "a lighter q4f16/q0f16 model";
+
+  return [
+    errorMessage,
+    "",
+    "This usually means the browser WebGPU pipeline crashed or the GPU driver reset while compiling the model.",
+    `Try switching to ${lighterModelHint}, reloading the tab, or restarting the browser.`,
+    "If you are on Windows, updating the GPU driver and keeping Hardware Acceleration enabled in Chrome/Edge often helps.",
+  ].join("\n");
+}
+
 type ServiceWorkerWebLLMHandler = {
   type: "serviceWorker";
   engine: ServiceWorkerMLCEngine;
@@ -117,6 +143,7 @@ export class WebLLMApi implements LLMApi {
         if (errorMessage === "[object Object]") {
           errorMessage = JSON.stringify(err);
         }
+        errorMessage = enhanceWebGPUError(errorMessage, this.llmConfig?.model);
         console.error("Error while initializing the model", errorMessage);
         options?.onError?.(errorMessage);
         return;
@@ -141,6 +168,7 @@ export class WebLLMApi implements LLMApi {
         log.error(JSON.stringify(err));
         errorMessage = JSON.stringify(err);
       }
+      errorMessage = enhanceWebGPUError(errorMessage, this.llmConfig?.model);
       console.error("Error in chatCompletion", errorMessage);
       if (
         errorMessage.includes("WebGPU") &&
@@ -173,28 +201,14 @@ export class WebLLMApi implements LLMApi {
       return true;
     }
 
-    // Compare required fields
-    if (this.llmConfig.model !== config.model) {
-      return true;
-    }
-
-    // Compare optional fields
-    const optionalFields: (keyof LLMConfig)[] = [
-      "temperature",
+    const reloadFields: (keyof LLMConfig)[] = [
+      "model",
+      "cache",
       "context_window_size",
-      "top_p",
-      "stream",
-      "presence_penalty",
-      "frequency_penalty",
-      "enable_thinking",
     ];
 
-    for (const field of optionalFields) {
-      if (
-        this.llmConfig[field] !== undefined &&
-        config[field] !== undefined &&
-        this.llmConfig[field] !== config[field]
-      ) {
+    for (const field of reloadFields) {
+      if (this.llmConfig[field] !== config[field]) {
         return true;
       }
     }

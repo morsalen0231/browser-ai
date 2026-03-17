@@ -66,16 +66,18 @@
   --sidebar-width: 300px;
   --window-content-width: calc(100% - var(--sidebar-width));
   --message-max-width: 80%;
-  --full-height: 100%;
+  --app-height: 100dvh;
+  --full-height: var(--app-height);
 }
 
 @media only screen and (max-width: 600px) {
   :root {
     --window-width: 100vw;
-    --window-height: 100vh;
+    --window-height: var(--app-height);
     --sidebar-width: 100vw;
     --window-content-width: var(--window-width);
     --message-max-width: 100%;
+    --full-height: var(--app-height);
   }
 
   .no-mobile {
@@ -98,6 +100,7 @@
 
 html {
   height: var(--full-height);
+  overflow: hidden;
 
   font-family: "Space Grotesk", "Inter", "Helvetica", "Arial", sans-serif;
 }
@@ -111,7 +114,8 @@ body {
   margin: 0;
   padding: 0;
   height: var(--full-height);
-  width: 100vw;
+  min-height: var(--full-height);
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: stretch;

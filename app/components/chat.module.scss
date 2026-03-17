@@ -305,10 +305,12 @@
   flex-direction: column;
   position: relative;
   height: 100%;
+  min-height: 0;
 }
 
 .chat-body {
   flex: 1;
+  min-height: 0;
   overflow: auto;
   overflow-x: hidden;
   padding: 20px;
@@ -630,6 +632,7 @@
   width: 100%;
   padding: 20px;
   padding-top: 10px;
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
   box-sizing: border-box;
   flex-direction: column;
   border-top: var(--border-in-light);
@@ -758,6 +761,7 @@
 
   .chat-input-panel {
     padding: 8px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
     box-shadow: none;
     border-top: var(--border-in-light);
 
