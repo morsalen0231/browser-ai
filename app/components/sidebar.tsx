@@ -33,6 +33,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { isIOS, useMobileScreen } from "../utils";
 import dynamic from "next/dynamic";
 import { showConfirm, showToast } from "./ui-lib";
+import CloseIcon from "../icons/close.svg";
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
@@ -172,28 +173,41 @@ export function SideBar(props: { className?: string }) {
         <div className={styles["sidebar-logo"] + " no-dark mlc-icon"}>
           <MlcIcon />
         </div>
+        {isMobileScreen && (
+          <IconButton
+            className={styles["sidebar-close"]}
+            icon={<CloseIcon />}
+            onClick={() => {
+              // collapse sidebar on mobile by navigating away from home
+              navigate(Path.Chat);
+            }}
+            shadow
+          />
+        )}
       </div>
 
-      <div className={styles["sidebar-header-bar"]}>
-        <IconButton
-          icon={<TemplateIcon />}
-          text={shouldNarrow ? undefined : Locale.Template.Name}
-          className={styles["sidebar-bar-button"]}
-          onClick={() => {
-            navigate(Path.Templates, { state: { fromHome: true } });
-          }}
-          shadow
-        />
-        <IconButton
-          icon={<SettingsIcon />}
-          text={shouldNarrow ? undefined : Locale.Settings.Title}
-          className={styles["sidebar-bar-button"]}
-          onClick={() => {
-            navigate(Path.Settings);
-          }}
-          shadow
-        />
-      </div>
+      {!shouldNarrow && (
+        <div className={styles["sidebar-header-bar"]}>
+          <IconButton
+            icon={<TemplateIcon />}
+            text={Locale.Template.Name}
+            className={styles["sidebar-bar-button"]}
+            onClick={() => {
+              navigate(Path.Templates, { state: { fromHome: true } });
+            }}
+            shadow
+          />
+          <IconButton
+            icon={<SettingsIcon />}
+            text={Locale.Settings.Title}
+            className={styles["sidebar-bar-button"]}
+            onClick={() => {
+              navigate(Path.Settings);
+            }}
+            shadow
+          />
+        </div>
+      )}
 
       <div
         className={styles["sidebar-body"]}

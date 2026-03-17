@@ -70,12 +70,16 @@ export function useSwitchTheme() {
   const config = useAppConfig();
 
   useEffect(() => {
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.remove("dark");
     document.body.classList.remove("light");
     document.body.classList.remove("dark");
 
     if (config.theme === "dark") {
+      document.documentElement.classList.add("dark");
       document.body.classList.add("dark");
     } else if (config.theme === "light") {
+      document.documentElement.classList.add("light");
       document.body.classList.add("light");
     }
 
@@ -166,95 +170,11 @@ const useWebLLM = () => {
   const [webllm, setWebLLM] = useState<WebLLMApi | undefined>(undefined);
   const [isWebllmActive, setWebllmAlive] = useState(false);
 
-  const isWebllmInitialized = useRef(false);
-
-  // Initialize WebLLM engine
+  // Simplified: always use WebWorker engine in dev to avoid SW delays/hangs.
   useEffect(() => {
-    // If service worker registration timeout, fall back to web worker.
-    // Keep this in useEffect so it only runs in the browser.
-    const timeout = setTimeout(() => {
-      if (!isWebllmInitialized.current && !isWebllmActive && !webllm) {
-        log.info(
-          "Service Worker activation is timed out. Falling back to use web worker.",
-        );
-        setWebLLM(new WebLLMApi("webWorker", config.logLevel));
-        setWebllmAlive(true);
-      }
-    }, 2_000);
-
-    if ("serviceWorker" in navigator) {
-      log.info("Service Worker API is available and in use.");
-      navigator.serviceWorker.ready.then(() => {
-        log.info("Service Worker is activated.");
-        // Check whether WebGPU is available in Service Worker
-        const request = {
-          kind: "checkWebGPUAvilability",
-          uuid: crypto.randomUUID(),
-          content: "",
-        };
-
-        const sendEventInterval = setInterval(() => {
-          navigator.serviceWorker.controller?.postMessage(request);
-        }, 200);
-
-        const webGPUCheckCallback = (event: MessageEvent) => {
-          const message = event.data;
-          if (message.kind === "return" && message.uuid === request.uuid) {
-            const isWebGPUAvailable = message.content;
-            log.info(
-              isWebGPUAvailable
-                ? "Service Worker has WebGPU Available."
-                : "Service Worker does not have available WebGPU.",
-            );
-            if (!webllm && !isWebllmActive) {
-              setWebLLM(
-                new WebLLMApi(
-                  isWebGPUAvailable ? "serviceWorker" : "webWorker",
-                  config.logLevel,
-                ),
-              );
-              setWebllmAlive(true);
-              isWebllmInitialized.current = true;
-              clearTimeout(timeout);
-            }
-            navigator.serviceWorker.removeEventListener(
-              "message",
-              webGPUCheckCallback,
-            );
-            clearInterval(sendEventInterval);
-          }
-        };
-        navigator.serviceWorker.addEventListener(
-          "message",
-          webGPUCheckCallback,
-        );
-      });
-    } else {
-      log.info(
-        "Service Worker API is unavailable. Falling back to use web worker.",
-      );
-      setWebLLM(new WebLLMApi("webWorker", config.logLevel));
-      setWebllmAlive(true);
-      isWebllmInitialized.current = true;
-      clearTimeout(timeout);
-    }
-    return () => clearTimeout(timeout);
+    setWebLLM(new WebLLMApi("webWorker", config.logLevel));
+    setWebllmAlive(true);
   }, [config.logLevel]);
-
-  useEffect(() => {
-    if (webllm?.webllm.type !== "serviceWorker") {
-      return;
-    }
-    const interval = setInterval(() => {
-      // 10s per heartbeat, dead after 30 seconds of inactivity
-      setWebllmAlive(
-        !!webllm.webllm.engine &&
-          (webllm.webllm.engine as ServiceWorkerMLCEngine).missedHeatbeat < 3,
-      );
-    }, 10_000);
-
-    return () => clearInterval(interval);
-  }, [webllm]);
 
   return { webllm, isWebllmActive };
 };

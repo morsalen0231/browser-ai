@@ -57,3 +57,44 @@
         }
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .row {
+        font-size: 0.72rem;
+
+        .summary-continer {
+            padding: 0.6rem 0.7rem;
+
+            .summary {
+                .summary-model-info {
+                    gap: 8px;
+                    min-width: 0;
+
+                    span {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                    flex-shrink: 0;
+                }
+            }
+        }
+
+        .expanded {
+            padding: 0.55rem 0.7rem 0.7rem;
+
+            .variant-option {
+                padding: 0.4rem 0.45rem;
+            }
+
+            .variant-label {
+                font-size: 0.68rem;
+            }
+        }
+    }
+}

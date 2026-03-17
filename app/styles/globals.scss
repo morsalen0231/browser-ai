@@ -1,53 +1,48 @@
 @import "./animation.scss";
 @import "./window.scss";
 
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap");
+
 @mixin light {
   --theme: light;
 
   /* color */
-  --white: white;
-  --black: rgb(48, 48, 48);
-  --gray: rgb(240, 240, 240);
-  --light-gray: rgb(120, 120, 120);
-  --primary: rgb(90, 96, 135);
-  --second: rgb(228, 229, 241);
-  --hover-color: #f3f3f3;
-  --bar-color: rgba(0, 0, 0, 0.1);
+  --white: #fff7ef;
+  --black: #34251b;
+  --gray: #f6eadf;
+  --light-gray: #8f7564;
+  --primary: #b5542f;
+  --second: rgba(214, 165, 123, 0.22);
+  --hover-color: rgba(181, 84, 47, 0.08);
+  --bar-color: rgba(181, 84, 47, 0.2);
   --theme-color: var(--gray);
-  --mlc-icon-color: rgb(6, 37, 120);
+  --mlc-icon-color: #b5542f;
 
   /* shadow */
-  --shadow: 50px 50px 100px 10px rgb(0, 0, 0, 0.1);
-  --card-shadow: 0px 2px 4px 0px rgb(0, 0, 0, 0.05);
+  --shadow: 0 20px 70px rgba(107, 74, 46, 0.18);
+  --card-shadow: 0 10px 30px rgba(119, 83, 52, 0.14);
 
   /* stroke */
-  --border-in-light: 1px solid rgb(222, 222, 222);
-  --border-in-dark: 1px solid rgb(136, 136, 136);
+  --border-in-light: 1px solid rgba(120, 86, 56, 0.14);
+  --border-in-dark: 1px solid rgba(120, 86, 56, 0.24);
 }
 
 @mixin dark {
   --theme: dark;
-
-  /* color */
-  --white: rgb(30, 30, 30);
-  --black: rgb(187, 187, 187);
-  --gray: rgb(21, 21, 21);
-  --light-gray: rgb(120, 120, 120);
-  --primary: rgb(60, 72, 144);
-  --second: rgb(36, 40, 52);
-  --hover-color: #323232;
-  --mlc-icon-color: #ffffff;
-
-  --bar-color: rgba(255, 255, 255, 0.1);
-
-  --border-in-light: 1px solid rgba(255, 255, 255, 0.192);
-  --border-in-dark: 1px solid rgb(255, 255, 255, 0.56);
-
+  --white: #1c1320;
+  --black: #fff4de;
+  --gray: #120b16;
+  --light-gray: #d4b9a6;
+  --primary: #f3b34c;
+  --second: rgba(121, 42, 72, 0.34);
+  --hover-color: rgba(243, 179, 76, 0.14);
+  --bar-color: rgba(243, 179, 76, 0.3);
   --theme-color: var(--gray);
-
-  div:not(.no-dark)>svg {
-    filter: invert(0.5);
-  }
+  --mlc-icon-color: #f08cab;
+  --shadow: 0 22px 80px rgba(15, 4, 12, 0.6);
+  --card-shadow: 0 14px 36px rgba(0, 0, 0, 0.38);
+  --border-in-light: 1px solid rgba(255, 255, 255, 0.09);
+  --border-in-dark: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 
@@ -77,7 +72,7 @@
 @media only screen and (max-width: 600px) {
   :root {
     --window-width: 100vw;
-    --window-height: var(--full-height);
+    --window-height: 100vh;
     --sidebar-width: 100vw;
     --window-content-width: var(--window-width);
     --message-max-width: 100%;
@@ -85,6 +80,13 @@
 
   .no-mobile {
     display: none;
+  }
+
+  body {
+    padding: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background: linear-gradient(180deg, #160b16 0%, #24101d 100%);
   }
 }
 
@@ -97,12 +99,14 @@
 html {
   height: var(--full-height);
 
-  font-family: "Noto Sans", "SF Pro SC", "SF Pro Text", "SF Pro Icons",
-    "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "Space Grotesk", "Inter", "Helvetica", "Arial", sans-serif;
 }
 
 body {
-  background-color: var(--gray);
+  background: radial-gradient(circle at 16% 18%, rgba(240, 140, 171, 0.18), transparent 24%),
+    radial-gradient(circle at 84% 10%, rgba(243, 179, 76, 0.22), transparent 30%),
+    radial-gradient(circle at 50% 100%, rgba(121, 42, 72, 0.24), transparent 34%),
+    linear-gradient(180deg, #160b16 0%, #24101d 100%);
   color: var(--black);
   margin: 0;
   padding: 0;
@@ -110,18 +114,28 @@ body {
   width: 100vw;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   user-select: none;
   touch-action: pan-x pan-y;
   overflow: hidden;
 
-  @media only screen and (max-width: 600px) {
-    background-color: var(--second);
-  }
-
   *:focus-visible {
     outline: none;
   }
+}
+
+body.light {
+  background: radial-gradient(circle at 16% 16%, rgba(255, 214, 176, 0.45), transparent 22%),
+    radial-gradient(circle at 86% 10%, rgba(255, 183, 119, 0.35), transparent 28%),
+    radial-gradient(circle at 50% 100%, rgba(214, 165, 123, 0.22), transparent 34%),
+    linear-gradient(180deg, #fff8f1 0%, #f6eadf 100%);
+}
+
+body.dark {
+  background: radial-gradient(circle at 16% 18%, rgba(240, 140, 171, 0.18), transparent 24%),
+    radial-gradient(circle at 84% 10%, rgba(243, 179, 76, 0.22), transparent 30%),
+    radial-gradient(circle at 50% 100%, rgba(121, 42, 72, 0.24), transparent 34%),
+    linear-gradient(180deg, #160b16 0%, #24101d 100%);
 }
 
 ::-webkit-scrollbar {
@@ -143,13 +157,14 @@ body {
 
 select {
   border: var(--border-in-light);
-  padding: 10px;
-  border-radius: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
   appearance: none;
   cursor: pointer;
-  background-color: var(--white);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
   color: var(--black);
   text-align: center;
+  box-shadow: var(--card-shadow);
 }
 
 label {

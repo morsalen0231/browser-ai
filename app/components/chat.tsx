@@ -488,6 +488,7 @@ export function ChatActions(props: {
 }) {
   const config = useAppConfig();
   const chatStore = useChatStore();
+  const isMobileScreen = useMobileScreen();
 
   // switch model
   const currentModel = config.modelConfig.model;
@@ -503,6 +504,74 @@ export function ChatActions(props: {
       props.setUploading(false);
     }
   }, [chatStore, currentModel, models]);
+
+  if (isMobileScreen) {
+    return (
+      <div className={styles["chat-input-actions"]}>
+        {showUploadImage && (
+          <ChatAction
+            onClick={props.uploadImage}
+            text={Locale.Chat.InputActions.UploadImage}
+            icon={props.uploading ? <LoadingButtonIcon /> : <ImageIcon />}
+          />
+        )}
+        <ChatAction
+          onClick={props.showPromptSetting}
+          text={Locale.Chat.Actions.EditConversation}
+          icon={<EditIcon />}
+        />
+        <ChatAction
+          onClick={props.showPromptHints}
+          text={Locale.Chat.InputActions.QuickPrompt}
+          icon={<PromptIcon />}
+        />
+        <ChatAction
+          text={Locale.Chat.InputActions.Clear}
+          icon={<BreakIcon />}
+          onClick={() => {
+            chatStore.updateCurrentSession((session) => {
+              if (session.clearContextIndex === session.messages.length) {
+                session.clearContextIndex = undefined;
+              } else {
+                session.clearContextIndex = session.messages.length;
+                session.memoryPrompt = "";
+              }
+            });
+          }}
+        />
+        {config.modelConfig.model.toLowerCase().startsWith("qwen3") && (
+          <ChatAction
+            onClick={() =>
+              config.update(
+                (config) => (config.enableThinking = !config.enableThinking),
+              )
+            }
+            text={Locale.Settings.THINKING}
+            icon={<BrainIcon />}
+            selected={config.enableThinking}
+          />
+        )}
+        <ChatAction
+          onClick={() => setShowModelSelector(true)}
+          text={currentModel}
+          icon={<RobotIcon />}
+          fullWidth
+        />
+        {showModelSelector && (
+          <ModelSelect
+            onClose={() => {
+              setShowModelSelector(false);
+            }}
+            availableModels={models.map((m) => m.name)}
+            onSelectModel={(modelName) => {
+              config.selectModel(modelName as Model);
+              showToast(modelName);
+            }}
+          />
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={styles["chat-input-actions"]}>
@@ -1080,15 +1149,13 @@ function _Chat() {
           </div>
         </div>
         <div className="window-actions">
-          {!isMobileScreen && (
-            <div className="window-action-button">
-              <IconButton
-                icon={<RenameIcon />}
-                bordered
-                onClick={() => setShowEditPromptModal(true)}
-              />
-            </div>
-          )}
+          <div className="window-action-button">
+            <IconButton
+              icon={<RenameIcon />}
+              bordered
+              onClick={() => setShowEditPromptModal(true)}
+            />
+          </div>
           <div className="window-action-button">
             <IconButton
               icon={<ShareIcon />}

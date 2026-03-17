@@ -1,22 +1,22 @@
 <div align="center">
 
-# WebLLM Chat
+# Morai LLM Chat
 
-<a href="https://github.com/mlc-ai/web-llm"><img alt="Related Repository: WebLLM" src="https://img.shields.io/badge/Related_Repo-WebLLM-fafbfc?logo=github"></a>
-<a href="https://chat.webllm.ai"><img alt="Web App Deployed on GitHub Pages" src="https://img.shields.io/badge/Web_App-Deployed-32a852?logo=pwa"></a>
+<a href="https://github.com/morsalen0231/browser-ai"><img alt="Repository" src="https://img.shields.io/badge/Repo-morsalen0231%2Fbrowser--ai-222?logo=github&logoColor=white"></a>
+<a href="https://morsalen.netlify.app"><img alt="Live Site" src="https://img.shields.io/badge/Live-morsalen.netlify.app-32a852?logo=netlify"></a>
 <a href="https://discord.gg/9Xpy2HGBuD"><img alt="Join Discord" src="https://img.shields.io/badge/Join-Discord-7289DA?logo=discord&logoColor=white"></a>
 
 **Private AI Conversations, Fully In-Browser.**
 
-[**Chat Now**](https://chat.webllm.ai/)
+[**Chat Now**](https://morsalen.netlify.app/)
 
-[WebLLM Chat Demo Video](https://github.com/mlc-ai/web-llm-chat/assets/23090573/f700e27e-bb88-4068-bc8b-8a33ea5a4300)
+[Morai LLM Demo Video](https://github.com/morsalen0231/browser-ai/assets/demo)
 
 </div>
 
 ## Overview
 
-**WebLLM Chat** is a private AI chat interface that combines [WebLLM](https://github.com/mlc-ai/web-llm) with a user-friendly design, leveraging WebGPU to run large language models (LLMs) natively in your browser. Enjoy an unprecedented, private, and accessible AI conversation experience.
+**Morai LLM Chat** is a private AI chat interface that runs natively in your browser with WebGPU acceleration. Enjoy an unprecedented, private, and accessible AI conversation experience.
 
 ## Key Features
 
@@ -28,21 +28,13 @@
 - **Custom Models**: Connect to any custom language model on you local environment through [MLC-LLM](https://llm.mlc.ai/). For detail, check the [Use Custom Models](#use-custom-models) section.
 - **Open Source and Customizable**: Build and customize your own AI-powered applications with our open-source framework.
 
-WebLLM Chat is a pioneering initiative that combines the robust backend capabilities of WebLLM with the user-friendly interface of NextChat. As a part of the broader MLC.ai family, this project contributes to our mission of democratizing AI technology by making powerful tools accessible directly to end-users. By integrating with NextChat, WebLLM Chat not only enhances the chatting experience but also broadens the scope for deployment of self-hosted and customizable language models.
-
 ## Built-in Models
 
-WebLLM Chat natively supports WebLLM build-in models. You can find the full list [here](https://github.com/mlc-ai/web-llm?tab=readme-ov-file#built-in-models).
+Morai LLM ships with a curated set of in-browser models that run with WebGPU.
 
 ## Use Custom Models
 
-WebLLM Chat supports custom language models through [MLC-LLM](https://llm.mlc.ai/). Follow the following steps to use custom models on your local environment:
-
-1. (Optional) Compile the model into MLC format by following [the instructions](https://llm.mlc.ai/docs/compilation/convert_weights.html).
-
-2. Host REST API through MLC-LLM by following [the instructions](https://llm.mlc.ai/docs/deploy/rest.html).
-
-3. Go to [WebLLM Chat](https://chat.webllm.ai/), select "Settings" in the side bar, then select "MLC-LLM REST API (Advanced)" as "Model Type" and type the REST API endpoint URL from step 2.
+You can point Morai LLM to any compatible REST endpoint to load your own model.
 
 ## Development
 
@@ -84,10 +76,4 @@ If your proxy needs password, use:
 
 ## Community and Contributions
 
-WebLLM Chat thrives on community involvement. We are committed to fostering an inclusive and innovative community where developers and AI enthusiasts can collaborate, contribute, and push the boundaries of what's possible in AI technology. Join us on Discord to connect with fellow developers and contribute to the project.
-
-## Acknowledgements
-
-WebLLM Chat is a companion project of [WebLLM](https://github.com/mlc-ai/web-llm/) and it is built upon the remarkable work of [NextChat](https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web). We extend our sincere gratitude to the developers and contributors of these projects for their invaluable efforts in advancing the field of browser-based AI and creating user-friendly chat interfaces.
-
-Further more, this project is only possible thanks to the shoulders of open-source ecosystems that we stand on. We want to thank the Apache TVM community and developers of the TVM Unity effort. The open-source ML community members made these models publicly available. PyTorch and Hugging Face communities make these models accessible. We would like to thank the teams behind Vicuna, SentencePiece, LLaMA, Alpaca. We also would like to thank the WebAssembly, Emscripten, and WebGPU communities. Finally, thanks to Dawn and WebGPU developers.
+Morai LLM thrives on community involvement. Join us on Discord to connect with fellow developers.

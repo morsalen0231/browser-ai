@@ -219,15 +219,14 @@ export const useAppConfig = createPersistStore(
   }),
   {
     name: StoreKey.Config,
-    version: 0.65,
+    version: 0.66,
     migrate: (persistedState, version) => {
-      if (version < 0.65) {
+      if (version < 0.66) {
         return {
           ...DEFAULT_CONFIG,
           ...(persistedState as any),
           models: DEFAULT_MODELS as any as ModelRecord[],
-          cacheType:
-            (persistedState as any)?.cacheType ?? CacheType.IndexDB,
+          cacheType: CacheType.IndexDB,
         };
       }
       return persistedState;

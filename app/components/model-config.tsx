@@ -62,6 +62,9 @@ export function ModelConfigList() {
           <ListItem title={Locale.Settings.Model}>
             <Select
               value={config.modelConfig.model}
+              onChange={() => {
+                /* selection handled via modal trigger */
+              }}
               onClick={(e) => {
                 e.preventDefault();
                 setShowModelSelector(true);
@@ -73,7 +76,11 @@ export function ModelConfigList() {
             >
               {models.map((v, i) => (
                 <React.Fragment key={i}>
-                  {i > 0 && v.family !== models[i - 1].family && <hr />}
+                  {i > 0 && v.family !== models[i - 1].family && (
+                    <option value={`separator-${i}`} disabled>
+                      ──────────────────────────
+                    </option>
+                  )}
                   <option value={v.name}>
                     {v.name}
                     {v.provider ? ` (${v.provider})` : ""}
@@ -252,7 +259,11 @@ export function ModelConfigList() {
             >
               {models.map((v, i) => (
                 <React.Fragment key={i}>
-                  {i > 0 && v.family !== models[i - 1].family && <hr />}
+                  {i > 0 && v.family !== models[i - 1].family && (
+                    <option value={`separator-${i}`} disabled>
+                      ──────────────────────────
+                    </option>
+                  )}
                   <option value={v.name}>
                     {v.name}
                     {v.provider ? ` (${v.provider})` : ""}

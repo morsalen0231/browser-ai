@@ -82,7 +82,7 @@ const serwist = new Serwist({
       matcher: ({ sameOrigin, url: { pathname } }) =>
         sameOrigin && pathname === "/ping.txt",
       handler: new CacheFirst({
-        cacheName: "WebLLMChatServiceWorkerKeepAlive",
+        cacheName: "MoraiLLMChatServiceWorkerKeepAlive",
         plugins: [
           new ExpirationPlugin({
             maxEntries: 1,

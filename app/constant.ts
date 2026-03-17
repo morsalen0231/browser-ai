@@ -2,9 +2,9 @@ import { prebuiltAppConfig } from "@mlc-ai/web-llm";
 import { ModelRecord } from "./client/api";
 import { getQuantization, getSize } from "./utils";
 
-export const OWNER = "mlc-ai";
-export const REPO = "web-llm-chat";
-export const WEBLLM_HOME_URL = "https://webllm.mlc.ai";
+export const OWNER = "morsalen0231";
+export const REPO = "browser-ai";
+export const WEBLLM_HOME_URL = "https://morsalen.netlify.app";
 export const REPO_URL = `https://github.com/${OWNER}/${REPO}`;
 export const ISSUE_URL = `https://github.com/${OWNER}/${REPO}/issues`;
 
@@ -59,7 +59,7 @@ export const DEFAULT_INPUT_TEMPLATE = `{{input}}`; // input / time / model / lan
 
 export const DEFAULT_SYSTEM_TEMPLATE = `
 You are an AI large language model assistant trained by {{provider}}.
-You are currently engaging with users on WebLLM Chat, an open-source AI Chatbot UI developed by MLC.ai (Machine Learning Compilation).
+You are currently engaging with users on Morai LLM Chat, an in-browser AI Chatbot UI.
 Model display_name:  {{model}}
 The current date and time is {{time}}.
 Latex inline format: \\(x^2\\) 

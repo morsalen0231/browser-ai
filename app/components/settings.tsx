@@ -520,18 +520,9 @@ export function Settings() {
             subTitle={Locale.Settings.CacheType.SubTitle}
           >
             <Select
-              value="cache"
-              onChange={(e) => {
-                updateConfig(
-                  (config) =>
-                    (config.cacheType = e.currentTarget
-                      .value as any as CacheType),
-                );
-              }}
+              value="index_db"
+              disabled
             >
-              <option value="cache" key="cache">
-                Cache
-              </option>
               <option value="index_db" key="index_db">
                 Index DB
               </option>

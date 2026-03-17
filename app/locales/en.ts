@@ -3,7 +3,7 @@ import { SubmitKey } from "../store/config";
 // if you are adding a new translation, please use PartialLocaleType instead of LocaleType
 
 const en = {
-  Title: "WebLLM Chat",
+  Title: "Morai LLM Chat",
   Subtitle: "AI Models Running in Browser",
   WIP: "Coming Soon...",
   ChatItem: {
@@ -78,7 +78,7 @@ const en = {
     Copy: "Copy All",
     Download: "Download",
     MessageFromYou: "Message From You",
-    MessageFromWebLLM: "Message From WebLLM",
+    MessageFromWebLLM: "Message From Morai LLM",
     Share: "Share",
     Format: {
       Title: "Export Format",
@@ -219,7 +219,7 @@ const en = {
     Model: "Model",
     ModelClientType: {
       Title: "Model Type",
-      WebLlm: "WebLLM Models",
+      WebLlm: "Morai LLM Models",
       MlcLlm: "MLC-LLM REST API (Advanced)",
     },
 
@@ -384,7 +384,7 @@ const en = {
 
   ServiceWorker: {
     Error:
-      "The WebLLM worker has lost connection. Please close all tabs of WebLLM Chat and try opening WebLLM Chat again.",
+      "The Morai worker has lost connection. Please close all tabs of Morai LLM Chat and try opening it again.",
   },
   MlcLLMConnect: {
     Title: "Connect to MLC-LLM API Endpoint",

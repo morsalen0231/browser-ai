@@ -1,36 +1,89 @@
 .window-header {
-  padding: 14px 20px;
-  border-bottom: rgba(0, 0, 0, 0.1) 1px solid;
+  padding: 18px 24px;
+  border-bottom: var(--border-in-light);
   position: relative;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: linear-gradient(135deg, rgba(121, 42, 72, 0.42), rgba(243, 179, 76, 0.12) 58%, rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(14px);
 }
 
 .window-header-title {
-  max-width: calc(100% - 100px);
+  max-width: calc(100% - 140px);
   overflow: hidden;
 
   .window-header-main-title {
-    font-size: 20px;
-    font-weight: bolder;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--black);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     display: block;
-    max-width: 50vw;
+    max-width: 60vw;
   }
 
   .window-header-sub-title {
-    font-size: 14px;
+    font-size: 13px;
+    color: var(--light-gray);
   }
 }
 
 .window-actions {
   display: inline-flex;
+  gap: 12px;
 }
 
-.window-action-button:not(:first-child) {
-  margin-left: 10px;
+.window-action-button {
+  border-radius: 12px !important;
+  background: linear-gradient(145deg, rgba(121, 42, 72, 0.44), rgba(243, 179, 76, 0.1)) !important;
+  border: var(--border-in-light) !important;
+  box-shadow: var(--card-shadow);
+}
+
+@media only screen and (max-width: 600px) {
+  .window-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
+  .window-header-title {
+    max-width: 100%;
+    width: 100%;
+
+    .window-header-main-title {
+      max-width: 100%;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .window-header-sub-title {
+      margin-top: 2px;
+      font-size: 11px;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .window-actions {
+    width: auto;
+    justify-content: flex-start;
+    gap: 4px;
+  }
+
+  .window-action-button {
+    transform: scale(0.72);
+    transform-origin: center;
+    border-radius: 8px !important;
+  }
 }
